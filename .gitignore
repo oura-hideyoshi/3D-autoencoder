@@ -1,5 +1,7 @@
 /0606
-/resultVox2Vox_clip
-/resultVox2Vox_clip_bin
 /util
-/3DAutoEncoder/resultVox2Vox
+/3DAutoEncoder/result
+/redwood-3dscan-master
+/dataset3D
+
+.idea

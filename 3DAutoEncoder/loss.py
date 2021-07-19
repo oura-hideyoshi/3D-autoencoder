@@ -2,7 +2,7 @@ import tensorflow as tf
 import keras.backend as K
 
 
-def imbalanced_loss(y_true, y_pred):
+def imbalanced_loss(y_true, y_pred, threshold=0.1, mul=1000):
     """
     不均衡データ対策loss
     y_true内に 1 が少ないため、以下のようなイメージの損失関数を実装する
@@ -25,13 +25,13 @@ def imbalanced_loss(y_true, y_pred):
     ----------
     y_true
     y_pred
+    threshold
+    mul
 
     Returns
     -------
 
     """
-    threshold = 0.1
-    mul = 1000  # 倍率
 
     bin_y_true = y_true >= threshold
     bin_y_true = K.cast_to_floatx(bin_y_true)

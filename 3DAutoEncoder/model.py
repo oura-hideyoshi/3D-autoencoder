@@ -1,7 +1,7 @@
 from keras.layers.advanced_activations import ReLU, LeakyReLU, PReLU, Softmax
 from keras.layers.normalization import BatchNormalization
 from keras.layers import Input, Dropout, Concatenate
-from keras.layers.convolutional import Conv3D, Conv3DTranspose
+from keras.layers.convolutional import Conv3D, Conv3DTranspose, UpSampling3D
 from keras.layers.pooling import MaxPooling3D
 from keras.models import Sequential, Model
 
@@ -45,10 +45,10 @@ class ModelGenerator:
         else:
             input_layer = Input(shape=clip_dim)
 
-        model = BatchNormalization(name='batchNormE1-1')(input_layer)
+        # model = BatchNormalization(name='batchNormE1-1')(input_layer)
         model = Conv3D(ini_f, k_size, strides=1, padding='same', activation='relu', kernel_initializer='he_normal',
-                       name='ConvE1-1')(model)
-        model = BatchNormalization(name='batchNormE1-2')(model)
+                       name='ConvE1-1')(input_layer)
+        # model = BatchNormalization(name='batchNormE1-2')(model)
         model = Conv3D(ini_f, k_size, strides=1, padding='same', activation='relu', kernel_initializer='he_normal',
                        name='ConvE1-2')(model)
         layer_stack.append(model)
@@ -57,45 +57,47 @@ class ModelGenerator:
         model = Conv3D(ini_f * 2, k_size, strides=1, padding='same', activation='relu',
                        kernel_initializer='he_normal',
                        name='ConvE2-1')(model)
-        model = BatchNormalization(name='batchNormE2-1')(model)
+        # model = BatchNormalization(name='batchNormE2-1')(model)
         model = Conv3D(ini_f * 2, k_size, strides=1, padding='same', activation='relu',
                        kernel_initializer='he_normal',
                        name='ConvE2-2')(model)
-        model = BatchNormalization(name='batchNormE2-2')(model)
+        # model = BatchNormalization(name='batchNormE2-2')(model)
         layer_stack.append(model)
 
         model = MaxPooling3D(pool_size=2, name='Pool2-3')(model)
         model = Conv3D(ini_f * 4, k_size, strides=1, padding='same', activation='relu',
                        kernel_initializer='he_normal',
                        name='ConvE3-1')(model)
-        model = BatchNormalization(name='batchNormE3-1')(model)
+        # model = BatchNormalization(name='batchNormE3-1')(model)
         model = Conv3D(ini_f * 4, k_size, strides=1, padding='same', activation='relu',
                        kernel_initializer='he_normal',
                        name='ConvE3-2')(model)
-        model = BatchNormalization(name='batchNormE3-2')(model)
+        # model = BatchNormalization(name='batchNormE3-2')(model)
 
-        model = Conv3DTranspose(ini_f * 2, k_size, strides=2, padding='same', activation='relu',
-                                kernel_initializer='he_normal', name='TConv3-2')(model)
+        model = UpSampling3D(size=(2, 2, 2), name='up_sampling3-2')(model)
+        model = Conv3D(ini_f * 2, k_size, strides=1, padding='same', activation='relu',
+                       kernel_initializer='he_normal')(model)
         model = Concatenate()([model, layer_stack.pop()])
         model = Conv3D(ini_f * 2, k_size, strides=1, padding='same', activation='relu',
                        kernel_initializer='he_normal',
                        name='ConvD2-1')(model)
-        model = BatchNormalization(name='batchNormD2-1')(model)
+        # model = BatchNormalization(name='batchNormD2-1')(model)
         model = Conv3D(ini_f * 2, k_size, strides=1, padding='same', activation='relu',
                        kernel_initializer='he_normal',
                        name='ConvD2-2')(model)
         model = BatchNormalization(name='batchNormD2-2')(model)
 
-        model = Conv3DTranspose(ini_f * 2, k_size, strides=2, padding='same', activation='relu',
-                                kernel_initializer='he_normal', name='TConv2-1')(model)
+        model = UpSampling3D(size=(2, 2, 2), name='up_sampling2-1')(model)
+        model = Conv3D(ini_f, k_size, strides=1, padding='same', activation='relu', kernel_initializer='he_normal')(
+            model)
         model = Concatenate()([model, layer_stack.pop()])
         model = Conv3D(ini_f, k_size, strides=1, padding='same', activation='relu', kernel_initializer='he_normal',
                        name='ConvD1-1')(model)
-        model = BatchNormalization(name='batchNormD1-1')(model)
+        # model = BatchNormalization(name='batchNormD1-1')(model)
         model = Conv3D(ini_f * 2, k_size, strides=1, padding='same', activation='relu',
                        kernel_initializer='he_normal',
                        name='ConvD1-2')(model)
-        model = BatchNormalization(name='batchNormD1-2')(model)
+        # model = BatchNormalization(name='batchNormD1-2')(model)
 
         # model = Conv3D(2, k_size, strides=1, padding='same', kernel_initializer='he_normal',
         #                name='output')(model)
