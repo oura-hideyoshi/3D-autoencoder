@@ -12,7 +12,7 @@ def main(cfg):
 
 
 class config:
-    mode = ["", "test", "save_input"]
+    mode = ["train", "test", "save_input"]
 
     # save path
     save_root_path = "result/test"
@@ -24,9 +24,9 @@ class config:
     xlsx_path = join(save_root_path, "history.xlsx")
 
     # dataset
-    train_x_path = '../../dataset3D/ReconData5set_shortBone/z=32/image'
-    train_y_path = '../../dataset3D/ReconData5set_shortBone/z=32/label'
-    test_x_path = '../../dataset3D/ReconData5set_shortBone/z=32/image'
+    train_x_path = '../dataset3D/ReconData5set_shortBone/z=32/image'
+    train_y_path = '../dataset3D/ReconData5set_shortBone/z=32/label'
+    test_x_path = '../dataset3D/ReconData5set_shortBone/z=32/image'
     test_y_path = None
 
     # for train parameter
@@ -39,6 +39,7 @@ class config:
     clip_dim = None
     clip_num = 10
     train_weight_path = None
+    validation_split = 0.1
 
     # use only for testing
     test_weight_path = join(save_root_path, "weight.h5")

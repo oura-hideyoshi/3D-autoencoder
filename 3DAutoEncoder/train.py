@@ -97,7 +97,7 @@ def train(cfg):
 
     if cfg.clip_dim is None:
         hist = model.fit(train_x, train_y, batch_size=cfg.batch_size, epochs=cfg.epochs,
-                         callbacks=[callback_tensorBoard, callback_checkpoint])
+                         callbacks=[callback_tensorBoard, callback_checkpoint], validation_split=cfg.validation_split)
     else:
         dataGenerator = generator3D(x_set=train_x, y_set=train_y, batch_size=cfg.batch_size, clip_dim=cfg.clip_dim,
                                     clip_num=cfg.clip_num)
