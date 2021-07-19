@@ -39,7 +39,7 @@ def test(cfg):
     try:
         model.load_weights(cfg.test_weight_path)
         print("Sat weight to model.")
-    except FileNotFoundError as e:
+    except (FileNotFoundError, OSError) as e:
         print(e, "cfg.test_weight_path:", cfg.test_weight_path)
         raise
     print("<test> Generating model ... Complete !")

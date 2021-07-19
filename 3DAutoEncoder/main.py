@@ -15,7 +15,7 @@ class config:
     mode = ["", "test", "save_input"]
 
     # save path
-    save_root_path = "./resultVox2Vox/shortBone_z=32_ImbLoss_kSize224"
+    save_root_path = "result/test"
     checkpoints_path = join(save_root_path, 'checkpoints')
     sample_path = join(save_root_path, "sample")
     activation_path = join(save_root_path, "activation")
