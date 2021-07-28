@@ -30,9 +30,10 @@ def test(cfg):
         os.makedirs(cfg.activation_path)
         os.makedirs(cfg.input_sample_path)
         os.makedirs(cfg.save_root_path + "/logs/train/plugins/profile")
+        os.makedirs(cfg.save_root_path + "/screenshot")
 
     # -------- build model --------
-    model = ModelGenerator().build_UNet_3L(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim, ini_f=4, k_size=[2, 2, 4])
+    model = ModelGenerator().build_UNet_3L(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim, ini_f=4, k_size=[4, 4, 8])
     print('<test> Generating model ...')
     model.summary()
     plot_model(model, to_file=cfg.save_root_path + "/model.png")

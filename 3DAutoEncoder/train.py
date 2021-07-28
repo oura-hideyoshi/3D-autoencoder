@@ -39,9 +39,10 @@ def train(cfg):
         os.makedirs(cfg.activation_path)
         os.makedirs(cfg.input_sample_path)
         os.makedirs(cfg.save_root_path + "/logs/train/plugins/profile")
+        os.makedirs(cfg.save_root_path + "/screenshot")
 
     # -------- build model --------
-    model = ModelGenerator().build_UNet_3L(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim, ini_f=4, k_size=[2, 2, 4])
+    model = ModelGenerator().build_point_spread(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim, ini_f=8)
     print('<train> Generating model ...')
     model.summary()
     plot_model(model, to_file=cfg.save_root_path + "/model.png")
@@ -102,7 +103,8 @@ def train(cfg):
         dataGenerator = generator3D(x_set=train_x, y_set=train_y, batch_size=cfg.batch_size, clip_dim=cfg.clip_dim,
                                     clip_num=cfg.clip_num)
         hist = model.fit_generator(generator=dataGenerator, epochs=cfg.epochs, callbacks=callbacks)
-    del train_x, train_y
+
+    model.evaluate(train_x, train_y, batch_size=1, verbose=1, sample_weight=None, steps=None)
 
     # -------- save history --------
     save_history_path = os.path.join(cfg.save_root_path, "metrics.xlsx")

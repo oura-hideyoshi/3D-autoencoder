@@ -1,8 +1,4 @@
-/0606
-/util
-/3DAutoEncoder/result
+/3DAutoEncoder/result/*
 /3DAutoEncoder/Matlab/gaussian_scatter
-/redwood-3dscan-master
-/dataset3D
-
+/dataset3D/*
 .idea

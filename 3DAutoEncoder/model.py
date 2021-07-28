@@ -107,8 +107,38 @@ class ModelGenerator:
 
         return Model(input=input_layer, outputs=model, name='UNet_3L')
 
+    def build_point_spread(self, im_dim, clip_dim=None, ini_f=8, k_size=[16, 16, 8]):
+        """
+        点広がり関数の逆みたいなのを学習したらいいな
+        Parameters
+        ----------
+        im_dim
+        clip_dim
+        ini_f
+        k_size
+
+        Returns
+        -------
+
+        """
+        layer_stack = []
+
+        if clip_dim is None:
+            input_layer = Input(shape=im_dim)
+        else:
+            input_layer = Input(shape=clip_dim)
+
+        model = Conv3D(ini_f, k_size, strides=1, padding='same', activation='relu', kernel_initializer='he_normal'
+                       )(input_layer)
+        model = Conv3D(ini_f, k_size, strides=1, padding='same', activation='relu', kernel_initializer='he_normal'
+                       )(model)
+        model = Conv3D(1, k_size, strides=1, padding='same', activation='relu', kernel_initializer='he_normal'
+                       )(model)
+
+        return Model(input=input_layer, outputs=model, name='spread')
+
 
 if __name__ == "__main__":
     m_g = ModelGenerator()
-    model = m_g.build_UNet_3L([128, 128, 128, 1])
+    model = m_g.build_point_spread(im_dim=[128, 128, 32, 1])
     model.summary()
