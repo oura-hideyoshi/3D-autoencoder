@@ -86,3 +86,8 @@ test_weight_path = join(save_root_path, "weight.h5")
 |変数|内容|
 |:---:|---|
 |test_weight_path|テストモードの際に用いる重みファイル|
+
+## データ詳細
+**tensorboard を使った、学習過程の可視化**
+
+`tensorboard --logdir=/full_path_to_your_logs`

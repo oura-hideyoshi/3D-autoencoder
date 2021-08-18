@@ -42,7 +42,7 @@ def train(cfg):
         os.makedirs(cfg.save_root_path + "/screenshot")
 
     # -------- build model --------
-    model = ModelGenerator().build_point_spread(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim, ini_f=8)
+    model = ModelGenerator().build_point_spread2(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim)
     print('<train> Generating model ...')
     model.summary()
     plot_model(model, to_file=cfg.save_root_path + "/model.png")

@@ -33,7 +33,7 @@ def test(cfg):
         os.makedirs(cfg.save_root_path + "/screenshot")
 
     # -------- build model --------
-    model = ModelGenerator().build_UNet_3L(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim, ini_f=4, k_size=[4, 4, 8])
+    model = ModelGenerator().build_point_spread2(im_dim=cfg.im_dim, clip_dim=cfg.clip_dim)
     print('<test> Generating model ...')
     model.summary()
     plot_model(model, to_file=cfg.save_root_path + "/model.png")
@@ -68,7 +68,7 @@ def test(cfg):
     if cfg.clip_dim is None:
         predicted = model.predict(test_x, verbose=1, batch_size=1)
         predicted = np.squeeze(predicted)
-        make_intermediate_images(cfg.activation_path, model, test_x[[1]])
+        make_intermediate_images(cfg.activation_path, model, test_x[[0]])
     else:
         cell_size = cfg.clip_dim
         celled_test_X = [vox2cell(test_x[i], cell_size) for i in range(test_x.shape[0])]
@@ -98,9 +98,7 @@ def make_intermediate_images(path, model, voxel):
     for i, activation in enumerate(activations):
         print("%2d: %s" % (i, str(activation.shape)))
 
-    activations = [(layer.name, activation) for layer, activation in zip(layers, activations)
-                   if isinstance(layer, BatchNormalization)
-                   ]
+    activations = [(layer.name, activation) for layer, activation in zip(layers, activations)]
 
     # 出力層ごとに特徴画像を並べてヒートマップ画像として出力
     if not os.path.isdir(path):

@@ -15,7 +15,7 @@ class config:
     mode = ["train", "test", "_save_input"]
 
     # save path
-    save_root_path = "result/0728_spreadModel"
+    save_root_path = "result/0817_spreadModel2_ImbLoss"
     checkpoints_path = join(save_root_path, 'checkpoints')
     sample_path = join(save_root_path, "sample")
     activation_path = join(save_root_path, "activation")
@@ -24,9 +24,9 @@ class config:
     xlsx_path = join(save_root_path, "history.xlsx")
 
     # dataset
-    train_x_path = '../dataset3D/ReconData5set_shortBone/z=32/image'
-    train_y_path = '../dataset3D/ReconData5set_shortBone/z=32/label'
-    test_x_path = '../dataset3D/ReconData5set_shortBone/z=32/image'
+    train_x_path = '../dataset3D/ReconData5set_shortBone/z=32/train/image'
+    train_y_path = '../dataset3D/ReconData5set_shortBone/z=32/train/label'
+    test_x_path = '../dataset3D/ReconData5set_shortBone/z=32/train/image'
     test_y_path = None
 
     # for train parameter
@@ -42,7 +42,7 @@ class config:
     validation_split = 0.1
 
     # use only for testing
-    test_weight_path = join(save_root_path, "weight.h5")
+    test_weight_path = join("result/0804_spreadModel2_MSE", "weight.h5")
 
 
 if __name__ == "__main__":
